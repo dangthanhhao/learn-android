@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DiceRoller</string>
+    <string name="roll">Roll</string>
+    <string name="aboutme.textview">TextView</string>
+    <string name="logodescription">Logo Description</string>
+    <string name="btnDone">Done</string>
+</resources>

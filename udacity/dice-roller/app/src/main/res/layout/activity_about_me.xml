@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    
+    <data>
+        <variable
+            name="customData"
+            type="com.aszqsc.diceroller.SampleDataClass" />
+        
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="6dp"
+    tools:context=".AboutMe">
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/textAboutme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/aboutme.textview"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="294dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:contentDescription="@string/logodescription"
+        app:srcCompat="@android:drawable/btn_star_big_on"></ImageView>
+
+    <Button
+        android:id="@+id/btnDone"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/holo_blue_dark"
+        android:fontFamily="@font/roboto"
+        android:text="@string/btnDone"
+        android:textColorHighlight="@android:color/holo_blue_dark"></Button>
+
+    <EditText
+        android:id="@+id/edtTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="What is your name"
+        android:inputType="textPersonName|text"
+        android:textAlignment="center"
+        android:importantForAutofill="no"></EditText
+
+        >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtName"
+            style="@style/textAboutme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text="@={customData.name}" />
+
+    </ScrollView>
+
+
+</LinearLayout>
+</layout>
