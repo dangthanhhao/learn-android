@@ -18,6 +18,7 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -26,6 +27,7 @@ import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
-
+    private  var  desertTimer:DessertTimer= DessertTimer()
     /** Dessert Data **/
 
     /**
@@ -65,7 +67,11 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        Log.i("Main Activity","On create called")
+        Timber.i("On created called")
+
         // Use Data Binding to get reference to the views
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.dessertButton.setOnClickListener {
@@ -145,5 +151,38 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             R.id.shareMenuButton -> onShare()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("On pause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("On stop called")
+        desertTimer.stopTimer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("On destroy called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("On resume called")
+    }
+    override fun onStart() {
+//        Log.i("Main Activity","Onstart called")
+        super.onStart()
+        Timber.i("On started called")
+        desertTimer.startTimer()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Timber.i("On restart called")
+
     }
 }
