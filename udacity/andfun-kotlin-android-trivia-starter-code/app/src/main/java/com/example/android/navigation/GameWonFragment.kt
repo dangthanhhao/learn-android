@@ -39,6 +39,7 @@ class GameWonFragment : Fragment() {
 
 //        Log.d("game won fragment",arguments.toString())
         var args = GameWonFragmentArgs.fromBundle(arguments!!)
+
         Toast.makeText(context, "Num correct: ${args.numCorrect}, num questions:${args.numQuestions} ", Toast.LENGTH_SHORT).show()
 
         setHasOptionsMenu(true)
