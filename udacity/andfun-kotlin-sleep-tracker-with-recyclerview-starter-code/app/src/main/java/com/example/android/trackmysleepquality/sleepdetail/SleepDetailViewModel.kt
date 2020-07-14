@@ -16,6 +16,7 @@
 
 package com.example.android.trackmysleepquality.sleepdetail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,12 +46,13 @@ class SleepDetailViewModel(
      */
     private val viewModelJob = Job()
 
-    private val night = MediatorLiveData<SleepNight>()
+    private var night = MediatorLiveData<SleepNight>()
 
     fun getNight() = night
 
     init {
         night.addSource(database.getNightWithId(sleepNightKey), night::setValue)
+        Log.i("Sleep detail", database.getAllNights().value.toString())
     }
 
     /**

@@ -25,6 +25,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
@@ -61,7 +63,7 @@ class SleepTrackerFragment : Fragment() {
 
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
         // Add an Observer on the state variable for showing a Snackbar message
         // when the CLEAR button is pressed.
@@ -96,7 +98,24 @@ class SleepTrackerFragment : Fragment() {
                 sleepTrackerViewModel.doneNavigating()
             }
         })
+        val adapter = SleepNightAdapter(SleepNightAdapter.SleepNightListener { nightID ->
+            sleepTrackerViewModel.onSleepNightClicked(nightID)
+        })
+        binding.sleepList.adapter = adapter
+        sleepTrackerViewModel.nights.observe(this, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
 
+        sleepTrackerViewModel.navigateToSleepDataQuality.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepDetailFragment(it))
+                sleepTrackerViewModel.onSleepNightQualityNavigated()
+            }
+        })
+        val manager = GridLayoutManager(activity, 5, LinearLayoutManager.HORIZONTAL, false)
+        binding.sleepList.layoutManager = manager
         return binding.root
     }
 }

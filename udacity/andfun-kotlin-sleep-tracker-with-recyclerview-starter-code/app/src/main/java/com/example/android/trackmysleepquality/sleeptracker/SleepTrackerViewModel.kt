@@ -130,6 +130,8 @@ class SleepTrackerViewModel(
 
     init {
         initializeTonight()
+
+
     }
 
     private fun initializeTonight() {
@@ -234,5 +236,17 @@ class SleepTrackerViewModel(
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    private var _navigateToSleepDataQuality = MutableLiveData<Long>()
+    val navigateToSleepDataQuality: LiveData<Long>
+        get() = _navigateToSleepDataQuality
+
+    fun onSleepNightQualityNavigated() {
+        _navigateToSleepDataQuality.value = null
+    }
+
+    fun onSleepNightClicked(nightID: Long) {
+        _navigateToSleepDataQuality.value = nightID
     }
 }
