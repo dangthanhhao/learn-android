@@ -17,26 +17,33 @@
 
 package com.example.android.marsrealestate.overview
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.android.marsrealestate.network.MarsApi
+import com.example.android.marsrealestate.network.MarsApiService
 import com.example.android.marsrealestate.network.MarsProperty
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
  */
-class OverviewViewModel : ViewModel() {
+class OverviewViewModel() : ViewModel() {
 
     // The internal MutableLiveData String that stores the status of the most recent request
-    private val _response = MutableLiveData<String>()
+    private val _status = MutableLiveData<String>()
 
     // The external immutable LiveData for the request status String
-    val response: LiveData<String>
-        get() = _response
+    val status: LiveData<String>
+        get() = _status
+
+    private val _properties = MutableLiveData<List<MarsProperty>>()
+
+    val properties: LiveData<List<MarsProperty>>
+        get() = _properties
+
+    val testString = "a string"
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
@@ -50,16 +57,26 @@ class OverviewViewModel : ViewModel() {
      */
     private fun getMarsRealEstateProperties() {
 
-        MarsApi.retrofitService.getProperties().enqueue(object : Callback<List<MarsProperty>> {
-            override fun onFailure(call: Call<List<MarsProperty>>, t: Throwable) {
-                _response.value = "Failure: " + t.message
-            }
+        val properties = MarsApiService.retrofitService.getProperties()
+        properties.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ result -> onSuccess(result) }, { err -> onErr(err) }, { onComplete() })
 
-            override fun onResponse(call: Call<List<MarsProperty>>, response: Response<List<MarsProperty>>) {
-                _response.value = "Success: ${response.body()?.size} Mars properties retrieved"
-            }
-        })
-
-        _response.value = "Set the Mars API Response here!"
     }
+
+    private fun onComplete() {
+        Log.i("Get API", "complete")
+    }
+
+    private fun onErr(err: Throwable?) {
+        Log.i("Got API error", err.toString())
+    }
+
+    private fun onSuccess(action: List<MarsProperty>?) {
+        Log.i("Got api", action.toString())
+        if (action?.size!! > 0)
+            _properties.value = action
+    }
+
+
 }

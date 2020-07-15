@@ -51,6 +51,8 @@ class OverviewFragment : Fragment() {
         binding.viewModel = viewModel
 
         setHasOptionsMenu(true)
+
+        binding.photosGrid.adapter = PhotoGridAdapter()
         return binding.root
     }
 

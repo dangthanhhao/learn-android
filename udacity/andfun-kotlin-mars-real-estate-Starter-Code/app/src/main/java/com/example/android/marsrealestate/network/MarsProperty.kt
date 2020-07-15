@@ -17,11 +17,12 @@
 
 package com.example.android.marsrealestate.network
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
+
 
 data class MarsProperty(
         val id: String,
-        @Json(name = "img_src")
+        @SerializedName("img_src")
         val imgSrcUrl: String,
         val type: String,
         val price: Double

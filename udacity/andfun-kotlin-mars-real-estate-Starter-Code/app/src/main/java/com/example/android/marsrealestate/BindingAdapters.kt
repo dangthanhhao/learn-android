@@ -17,3 +17,31 @@
 
 package com.example.android.marsrealestate
 
+import android.util.Log
+import android.widget.ImageView
+import androidx.core.net.toUri
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.overview.PhotoGridAdapter
+
+@BindingAdapter("imgURL")
+fun bindImage(imgView: ImageView, imgURL: String?) {
+
+    imgURL?.let {
+        Log.d("Binding image got", imgURL)
+        val imgURi = imgURL.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context).load(imgURi).apply(RequestOptions()
+                .placeholder(R.drawable.loading_animation)
+                .error(R.drawable.ic_broken_image)
+        ).into(imgView)
+    }
+}
+
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<MarsProperty>?) {
+    val adapter = recyclerView.adapter as PhotoGridAdapter
+    adapter.submitList(data)
+}
