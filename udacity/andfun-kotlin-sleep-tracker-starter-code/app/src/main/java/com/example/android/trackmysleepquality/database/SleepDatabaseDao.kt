@@ -41,4 +41,6 @@ interface SleepDatabaseDao {
 
     @Query("SELECT * FROM DAILY_SLEEP_QUALITY_TABLE ORDER BY nightID DESC LIMIT 1")
     fun getToNight(): SleepNight?
+
+
 }
